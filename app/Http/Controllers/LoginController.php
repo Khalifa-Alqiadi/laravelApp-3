@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
     public function userLogin(){
+        if(Auth::check())
+        return redirect()->route($this->checkRole());
+        else 
         return view('logins');
     }
     public function loginUser(Request $request){
@@ -35,12 +39,33 @@ class LoginController extends Controller
         $u->password=Hash::make($request->password);
         $u->email=$request->email;
         if($u->save()){
+            $u->attachRole('client');
             return redirect()->route('userDashboard')
             ->with(['success'=>'user created successful']);
         }
         return back()->with(['error'=>'can not create user']);
 
     }
+    public function checkRole(){
+        if(Auth::user()->hasRole('admin'))
+        return 'dashboard';
+            else 
+            return 'home';
+    }
+    // function login(Request $request){
+    //     $name =$request->username;
+    //     $password = $request->password;
+    //     $pass = sha1($password);
+    //     $user = DB::table('users')->where('name', $name)->where('password', $pass)->get();
+    //     foreach($user as $u){
+    //         session_start();
+    //         $_SESSION['user'] = $u->name;
+    //         $_SESSION['userid'] = $u->id;
+    //         $userSession = $_SESSION['user'];
+    //         $userIdSession = $_SESSION['userid'];
+    //     }
+    //     return view('layout.home', ['userSession'=> $userIdSession]);
+    // }
     public function login(Request $request){
         Validator::validate($request->all(),[
             'user_email'=>['email','required','min:3','max:50'],
@@ -53,9 +78,20 @@ class LoginController extends Controller
            
         ]);
 
-        $user = User::where(['email' => $request->user_email, 'password' => $request->password])->get()->first();
-        if($user){
-            return view('index');
+        if(Auth::attempt(['email'=>$request->user_email,'password'=>$request->password,'is_active'=>1])){
+
+            
+            if(Auth::user()->hasRole('client'))
+            return redirect()->route('userDashboard');
+            else 
+            return redirect()->route('dashboard');
+
+        
         }
+        else {
+            return redirect()->route('logins')->with(['message'=>'incorerct username or password or your account is not active ']);
+        }
+
+        
     }
 }
