@@ -40,7 +40,7 @@ class LoginController extends Controller
         $u->email=$request->email;
         if($u->save()){
             $u->attachRole('client');
-            return redirect()->route('userDashboard')
+            return redirect()->route('userLogin')
             ->with(['success'=>'user created successful']);
         }
         return back()->with(['error'=>'can not create user']);

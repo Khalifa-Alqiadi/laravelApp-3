@@ -27,26 +27,8 @@ a{
 /* Start Form Login */
 
 .login{
-    width: 300px;
-    margin: 100px auto;
+    box-shadow: 0 0 10px 5px #CCC;
 }
-
-.login h4{
-    color: #888;
-}
-
-.login input{
-    margin-bottom: 10px;
-}
-
-.login .form-control{
-    background-color: #EAEAEA;
-}
-
-.login .btn{
-    background-color: #008dde;
-}
-
 /* End Form Login */
 
 /* Start bootstrap Navbar */

@@ -47,7 +47,7 @@ class User extends Authenticatable
     ];
 
     public function userSkill(){
-        return $this->hasOne(Skill::class, 'user_id');
+        return $this->hasMany(Skill::class, 'user_id');
     }
     public function userExperience(){
         return $this->hasOne(Experience::class, 'user_id');

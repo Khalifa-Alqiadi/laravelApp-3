@@ -1,7 +1,9 @@
 <?php
-
+use App\Http\Livewire;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Owner\HomeOwnerController;
+use App\Http\Controllers\Owner\profileOwnerController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DatialsController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\userDashboard\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+Illuminate\Support\Facades\Facade::__callStatic("livewire");
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,28 +29,36 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::get('/', function () {
 return view('index');
 });
-
-
-
-Route::group([
-	'prefix' => LaravelLocalization::setLocale(),
-	'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
-],function(){
-	Route::get('/home', [IndexController::class, 'indexShow']);
+Route::post('/register', [AuthController::class, 'loginUser'])->name('register');
+Route::post('/registerCompany', [AuthController::class, 'registerCompany'])->name('registerCompany');
+Route::post('/user_login', [AuthController::class, 'login'])->name('user_login');
+Route::get('/login',[AuthController::class,'showLogin'])->name('login');
+// Route::get('/userLogin', [AuthController::class, 'userLogin']);
+Route::group(['middleware'=>'auth'],function(){
+	Route::get('/home', [IndexController::class, 'indexShow'])->name('home');
 	Route::get('/companies', [CompanyController::class, 'companyShow']);
 	Route::get('/details', [DatialsController::class, 'detialsShow']);
-	Route::get('/userLogin', [LoginController::class, 'userLogin']);
-	Route::post('/register', [LoginController::class, 'loginUser'])->name('register');
-	Route::post('/user_login', [LoginController::class, 'login'])->name('user_login');
-	// Abmin Dashboard
 	
+	
+	Route::livewire('all_jops', 'all-jobs');
+	// Abmin Dashboard
+	Route::get('/ownerDashboard', [HomeOwnerController::class, 'showOwnerDashboard'])->name('ownerDashboard');
+	// Route::get('/all_jops', [HomeOwnerController::class, 'allJobs'])->name('all_jops');
+	Route::get('/end_jobs', [HomeOwnerController::class, 'endJobs'])->name('end_jobs');
+	Route::get('/ownerProfile', [profileOwnerController::class, 'ownerProfile'])->name('ownerProfile');
 	// User Dashboard
+	
 	Route::get('/userDashboard', [UserDashboardController::class, 'showUserDashboard'])->name('userDashboard');
+	
+	Route::get('/showSkills', [UserDashboardController::class, 'showSkills'])->name('showSkills');
+	Route::get('/edit_skill/{id}', [UserDashboardController::class, 'edit_skill'])->name('edit_skill');
 	Route::post('/add_skill_user', [UserDashboardController::class, 'insertSkillUserDashboard'])->name('add_skill_user');
-	Route::post('/edit_skill_user', [UserDashboardController::class, 'editSkillUserDashboard'])->name('edit_skill_user');
+	Route::post('/edit_skill_user', [UserDashboardController::class, 'editSkillUserDashboard']);
 	Route::post('/delete_skill_user', [UserDashboardController::class, 'deleteSkillUserDashboard'])->name('delete_skill_user');
+	Route::get('/showExperience', [UserDashboardController::class, 'showExperience'])->name('showExperience');
 	Route::post('/add_experience_user', [UserDashboardController::class, 'insertExperienceUserDashboard'])->name('add_experience_user');
 	Route::post('/edit_experience_user', [UserDashboardController::class, 'editExperienceUserDashboard'])->name('edit_experience_user');
+	Route::get('/edit_experience/{id}', [UserDashboardController::class, 'edit_experience'])->name('edit_experience');
 	Route::post('/delete_experience_user', [UserDashboardController::class, 'deleteExperienceUserDashboard'])->name('delete_experience_user');
 	Route::post('/add_qualifcations_user', [UserDashboardController::class, 'insertQualifcationsUserDashboard'])->name('add_qualifcations_user');
 	Route::post('/edit_qualifcations_user', [UserDashboardController::class, 'editQualifcationsUserDashboard'])->name('edit_qualifcations_user');
@@ -57,15 +68,15 @@ Route::group([
 	Route::post('/delete_courses_user', [UserDashboardController::class, 'deleteCoursesUser'])->name('delete_courses_user');
 	
 
-Route::get('/login',[AuthController::class,'showLogin'])->name('login');
+
 
 
 });
 
 Route::group(['middleware'=>'auth'],function(){
-	Route::group(['middleware'=>'role:admin|super_admin'],function(){
+	Route::group(['middleware'=>'role:admin'],function(){
 
-
+		
 		Route::get('/dashboard',[DashboardController::class,'adminDash'])->name('dashboard');
 
 		Route::get('/adminUsers', [UsersController::class, 'showUsers'])->name('adminUsers');

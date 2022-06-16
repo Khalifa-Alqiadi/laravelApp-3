@@ -94,63 +94,6 @@ a{
 
 /* Start Header */
 
-.upper-bar{
-    background-color: #f3f0f0;
-    display: flex;
-}
-
-.upper-bar .session-user{
-    padding: 0 10px;
-    margin: 4px 0;
-    color: #FFF;
-}
-
-.upper-bar .session-user img{
-    width: 45px;
-    height: 45px;
-    top: -2px;
-}
-
-.upper-bar .nav-link{
-    color: black;
-    font-weight: bold;
-    font-size: 15px;
-    margin: 3px 3px 0;
-}
-
-.upper-bar .dropdown .show{
-    color: rgb(5, 5, 5);
-}
-
-.upper-bar .dropdown{
-    position: inherit;
-}
-
-.upper-bar .dropdown-menu{
-    right: 998px;
-}
-
-.upper-bar .dropdown-item{
-    padding: 10px;
-}
-
-.upper-bar .login-header{
-    height: 40px;
-    padding-top: 10px;
-} 
-
-@media(max-width:991px){
-    .upper-bar .session-user .nav-item{
-        position: absolute;
-        left: 9%;
-        z-index: 1;
-    }
-    .upper-bar .dropdown .show{
-        position: relative;
-        left: -54px;
-    }
-} 
-
 /* End Header */
 
 
@@ -289,70 +232,12 @@ a{
 /* End Card Section */
 
 /* Start Login Page */
-
-.login-page form,
-.the-errors{
-    max-width: 350px;
-    margin: auto;
+.login{
+    box-shadow: -2px 3px 7px 4px #ccc;
 }
-
-.login-page form input{
-    margin: 5px;
-}
-
-.login-page form .btn-block{
-    width: 100%;
-}
-
-.login-page [data-class="login"].selected{
-    color: #0d6efd;
-}
-
-.login-page [data-class="signup"].selected{
-    color: #198754;
-}
-
-.login-page h1{
-    color: rgb(211, 211, 211);
-}
-
-.login-page .y-selected{
-    color: #137c33;
-}
-
-.login-page h1 span{
+.cursor-pointer{
     cursor: pointer;
 }
-
-.login-page .signup{
-    display: none;
-}
-
-.form-login-page{
-
-}
-
-.masg{
-    background-color: #fffdfd;
-    padding: 10px;
-    margin-left: 6px;
-    margin-bottom: 5px;
-    border: 1px solid #CCC;
-    text-align: left;
-    width: 100%;
-    display: none;
-}
-
-.masg.error{
-    display: block;
-    border-left: 6px solid #b42a2a;
-}
-
-.masg.success{
-    display: block;
-    border-left: 5px solid #198754;
-}
-
 /* End Login Page */
 
 

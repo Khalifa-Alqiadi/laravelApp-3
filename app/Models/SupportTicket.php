@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Skill extends Model
+class SupportTicket extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
-        'name', 'percent', 'user_id',
+        'questions'
     ];
 
-    public function user(){
-        return $this->hasMany(User::class, 'id');
+    public function courses(){
+        return $this->hasMany(Course::class);
     }
 }

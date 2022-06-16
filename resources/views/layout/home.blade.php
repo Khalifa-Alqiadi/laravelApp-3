@@ -15,34 +15,8 @@
 
 <body>
 
-<div class="upper-bar">
-        <div class="container">
-            @if(isset($_SESSION['user']))
-            <div class="navbar navbar-expand-lg session-user">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
-                    <img src="img.png" class="img-thumbnail img-circle" alt="" />
-                    <li class="nav-item dropdown">
-                        <a class="btn btn-default  nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{$_SESSION['user']}}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="userDashboard">myDashboard</a></li>
-                            <li><a class="dropdown-item" href="logout">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            @else
-            <a href="userLogin">
-                <span class="login-header pull-right" >Login/Signup</span>
-            </a>
-            @endif
-            
-        </div>
-    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="#">YemenUp</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -66,7 +40,30 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/include/contact.html">Contact</a>
                     </li>
+                    @if(Auth::user() != null)
+                        
+                        <li class=" nav-item position-relative">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Auth::user()->name}}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if(Auth::user()->hasRole('owner'))
+                                    <li><a class="dropdown-item" href="ownerDashboard">Owner Dashboard</a></li>
+                                @elseif(Auth::user()->hasRole('client'))
+                                    <li><a class="dropdown-item" href="userDashboard">User Dashboard</a></li>
+                                @endif
+                                <li><a class="dropdown-item" href="logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    @else
+                        <li>
+                            <a href="login" class="nav-link">
+                                Login/Signup
+                            </a>
+                        </li>
+                    @endif
                 </ul>
+                
             </div>
         </div>
     </nav>
@@ -104,8 +101,15 @@
     <script src="{{ URL::asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{ URL::asset('js/jquery-ui.min.js')}}"></script>
     <script src="{{ URL::asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{ URL::asset('js/login.js')}}"></script>
+    {{-- <script src="{{ URL::asset('js/login.js')}}"></script> --}}
     <script src="{{ URL::asset('js/main.js')}}"></script>
-
+    <script>
+        $(function(){
+            $('.cursor-pointer').on('click', function(){
+                $('.account').removeClass('d-none');
+                $('.account').addClass('d-flex');
+            })
+        })
+    </script>
 </body>
 </html>

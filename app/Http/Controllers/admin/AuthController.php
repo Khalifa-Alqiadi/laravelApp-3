@@ -31,13 +31,13 @@ class AuthController extends Controller
         if(Auth::check())
         return redirect()->route($this->checkRole());
         else 
-        return view('admin.login');
+        return view('login');
     }
 
 
 
     public function checkRole(){
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()->hasRole('super_admin'))
         return 'dashboard';
             else 
             return 'home';
@@ -45,20 +45,20 @@ class AuthController extends Controller
 
     public function login(Request $request){
         Validator::validate($request->all(),[
-            'email_username'=>['email','required','min:3','max:50'],
-            'user_pass'=>['required','min:5']
+            'user_email'=>['email','required','min:3','max:50'],
+            'password'=>['required','min:5']
 
 
         ],[
-            'email_username.required'=>'this field is required',
-            'email_username.min'=>'can not be less than 3 letters', 
+            'user_email.required'=>'this field is required',
+            'user_email.min'=>'can not be less than 3 letters', 
            
         ]);
 
-        if(Auth::attempt(['email'=>$request->email_username,'password'=>$request->user_pass,'is_active'=>1])){
+        if(Auth::attempt(['email'=>$request->user_email,'password'=>$request->password])){
 
             
-            if(Auth::user()->hasRole('admin'))
+            if(Auth::user()->hasRole('super_admin'))
             return redirect()->route('dashboard');
             else 
             return redirect()->route('home');
@@ -73,7 +73,7 @@ class AuthController extends Controller
     }
 
     public function createUser(){
-        return view('admin.logins');
+        return view('admin.login');
     }
     public function loginUser(Request $request){
 
@@ -97,51 +97,44 @@ class AuthController extends Controller
         $u->password=Hash::make($request->password);
         $u->email=$request->email;
         if($u->save()){
-            $u->attachRole('admin');
+            $u->attachRole('client');
             return redirect()->route('home')
             ->with(['success'=>'user created successful']);
         }
         return back()->with(['error'=>'can not create user']);
 
     }
-
-    public function registersss(Request $request){
+    public function registerCompany(Request $request){
 
         Validator::validate($request->all(),[
-            'full_name'=>['required','min:3','max:50'],
-            'u_email'=>['required','email','unique:elib_users,email'],
-            'user_pass'=>['required','min:5'],
-            'confirm_pass'=>['same:user_pass']
-
+            'username'=>['required','min:3','max:10'],
+            'email'=>['required','email','unique:users,email'],
+            'password'=>['required','min:5'],
 
         ],[
-            'full_name.required'=>'this field is required',
-            'full_name.min'=>'can not be less than 3 letters', 
-            'u_email.unique'=>'there is an email in the table',
-            'u_email.required'=>'this field is required',
-            'u_email.email'=>'incorrect email format',
-            'user_pass.required'=>'password is required',
-            'user_pass.min'=>'password should not be less than 3',
-            'confirm_pass.same'=>'password dont match',
-
-
+            'username.required'=>'this field is required',
+            'username.min'=>'can not be less than 3 letters', 
+            'email.unique'=>'there is an email in the table',
+            'email.required'=>'this field is required',
+            'email.email'=>'incorrect email format',
+            'password.required'=>'password is required',
+            'password.min'=>'password should not be less than 3',
         ]);
 
         $u=new User();
-        $u->name=$request->full_name;
-        $u->password=Hash::make($request->user_pass);
-        $u->email=$request->u_email;
-       
+        $u->name=$request->username;
+        $u->password=Hash::make($request->password);
+        $u->email=$request->email;
         if($u->save()){
-            $u->attachRole('admin');
+            $u->attachRole('owner');
             return redirect()->route('home')
             ->with(['success'=>'user created successful']);
         }
-
-      
         return back()->with(['error'=>'can not create user']);
 
     }
+
+    
 
 
     public function editUser(){
