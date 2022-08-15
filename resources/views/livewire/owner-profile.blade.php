@@ -1,65 +1,115 @@
-<div class="p-3 d-flex flex-column border shadow w-100">
-    <h1 class="text-title fs-4">Comments</h1>
-    <section class="d-flex flex-column">
-        {{-- @if (isset($image))
-        {{$image}}
-        @endif --}}
-        @if ($image)
-            <img src={{$image}} width="200" alt="">
+<div class="container">
+    <h1 class="title-header text-center">Profile</h1>
+    <div>
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                {{session('message')}}
+            </div> 
         @endif
-        <input type="file" id="image" wire:change="$emit('fileChoosen')">
-    </section>
-    <form class="w-100" wire:submit.prevent="addCource">
-        
-        <div class="d-flex flex-column">
-            @error('NewCourese')
-            
-                <span class="text-red-500 text-xs">{{$message}}</span>
-            @enderror
-            <div>
-                @if (session()->has('message'))
-                    <div class="alert alert-success">
-                        {{session('message')}}
-                    </div> 
+    </div>
+    <form wire:submit.prevent="EditProfile" class="w-100">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <label class="col-md-12 fs-5">Company Name</label>
+                    <div class="row mt-3">
+                        <div class="col-md-9">
+                            @if (!isset($nameEdit))
+                                <input type="text" wire:model.defer="name" disabled class="form-control">
+                                
+                            @else
+                                <input type="text" wire:model.defer="name" class="form-control">
+                            @endif
+                        </div>
+                        <div class="col-md-2">
+                            <i class="fa fa-edit text-dark fs-1" wire:click="nameEdit()"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <label class="col-md-12 fs-5">Company Email</label>
+                    <div class="row">
+                        <div class="col-md-9">
+                            @if (isset($emailEdit))
+                                <input type="text"  wire:model.defer="email" class="form-control">
+                            @else
+                                <input type="text"  wire:model.defer="email" disabled class="form-control">
+                            @endif
+                        </div>
+                        <div class="col-md-2">
+                            <i class="fa fa-edit text-dark fs-1" wire:click="emailEdit()"></i>
+                        </div>
+                    </div>
+                </div> 
+                <div class="row mt-3">
+                    <label class="col-md-12 fs-5">Company Bio</label>
+                    <div class="row">
+                        @if (isset($company->bio))
+                            <div class="col-md-9">
+                                @if (isset($bioEdit))
+                                    <textarea type="text"  wire:model.defer="bio" class="form-control"></textarea>
+                                @else
+                                    <textarea type="text"  wire:model.defer="bio" disabled class="form-control"></textarea>
+                                @endif
+                            </div>
+                            <div class="col-md-2">
+                                <i class="fa fa-edit text-dark fs-1" wire:click="bioEdit()"></i>
+                            </div>
+                        @else
+                            <div class="col-md-9">
+                                <textarea type="text"  wire:model.defer="bio" class="form-control"></textarea>
+                            </div>
+                        @endif
+                    </div>
+                    
+                </div> 
+                <div class="row mt-3">
+                    <label class="col-md-12 fs-5">Company Address</label>
+                    <div class="row">
+                        @if (isset($company->address))
+                            <div class="col-md-9">
+                                @if (isset($addressEdit))
+                                    <input type="text"  wire:model.defer="address" class="form-control">
+                                @else
+                                    <input type="text"  wire:model.defer="address" disabled class="form-control">
+                                @endif
+                            </div>
+                            <div class="col-md-2">
+                                <i class="fa fa-edit text-dark fs-1" wire:click="addressEdit()"></i>
+                            </div>
+                        @else
+                            <div class="col-md-9">
+                                <input type="text"  wire:model.defer="address" class="form-control">
+                            </div>
+                        @endif
+                    </div>
+                    
+                </div> 
+            </div>
+            <div class="col-md-4">
+                @if ($image)
+                    <img src="{{$image}}" class="w-100 border" alt="">
+                @else
+                    @if (isset(Auth::user()->company->avatar))
+                        <img src="{{asset('storage/'. Auth::user()->company->avatar)}}" alt="" class="w-100 border">
+                    @else
+                        <img src="{{asset('images/img.jpg')}}" alt="" class="w-100 border">
+                    @endif
+                    <div class="mt-3 text-center">
+                        <i class="fa fa-edit text-dark fs-1" wire:click="avatarEdit()"></i>
+                    </div>
+                    @if (isset($avatar))
+                        <input type="file" id="image" wire:change="$emit('imageChoosen')">
+                    @endif
                 @endif
             </div>
-            <div class="p-2 d-flex w-100">
-                <input type="text" class="bg-transparent shadow col-md-9 p-2" wire:model.debounce.500ms="NewCourese">
-                <button type="submit" class="p-2 col-md-2 shadow" >add</button>
-            </div>
+            <button type="submit" class="p-2 col-md-1 shadow btn btn-primary" >Save</button>
         </div>
-        
     </form>
-    <div class=" courses-ajax">
-        @if(isset($courses))
-        @foreach($courses as $course)
-            <div class="d-flex border shadow m-2 p-2 justify-content-between">
-                <div class="m-2">
-                    <div class="d-flex">
-                        <p class="mx-2">{{Auth::user()->name}}</p>
-                        <p class="active">{{$course->created_at->diffForHumans()}}</p>
-                    </div>
-                    <p class="mx-3">{{$course->name}}</p>
-                    @if ($course->image)
-                        <img src="{{$course->imagePath}}" alt="">
-                    @endif
-                    
-                </div>
-                <i class="fa fa-times text-danger cursor-pointer m-2" wire:click="remove({{$course->id}})"></i>
-            </div>
-        @endforeach
-        
-        @endif
-        {{-- <div class=""> --}}
-            {{-- <livewire:pagination-links :courses="$courses" /> --}}
-            {{$courses->links('livewire.pagination-links',['courses' => $courses])}}
-        {{-- </div> --}}
-    </div>
-    
 </div>
 
 <script>
-    window.livewire.on('fileChoosen', () =>{
+    window.livewire.on('imageChoosen', () =>{
         let inputField = document.getElementById('image')
         let = file = inputField.files[0];
         let reader = new FileReader();
@@ -68,4 +118,8 @@
         }
         reader.readAsDataURL(file);
     })
+    
+</script>
+<script>
+ 
 </script>

@@ -29,7 +29,7 @@
                         <a class="nav-link active" aria-current="page" href="home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="include/jobs.html">All Jobs</a>
+                        <a href="{{route('jobs')}}" class="nav-link" href="include/jobs.html">All Jobs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="companies">All Comps</a>
@@ -72,7 +72,7 @@
     
     <!-- @yield('index') -->
 
-    
+    @yield('content')
     @yield('ads')
     <section id="card" class="container">
         @yield('crad')

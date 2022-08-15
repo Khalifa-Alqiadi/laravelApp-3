@@ -229,17 +229,15 @@ a {
 .input-group input,
 .form-select,
 .form-control {
-    background-color: var(--darkgrey);
     color: gray !important;
     border-radius: 0;
     border: 1px solid #777;
     /* border: none; */
 }
 textarea.form-control {
-    color: white !important;
+    color: #808080 !important;
 }
 .form-select option {
-    background-color: var(--darkgrey);
     color: gray !important;
 }
 .input-group input:focus,
@@ -247,11 +245,11 @@ textarea.form-control {
 .form-control:focus,
 .input-group select:focus,
 .form-select:focus {
-    background-color: var(--darkgrey);
-    color: var(--whitecolor) !important;
+    color: #999999 !important;
     box-shadow: none;
     box-shadow: none;
     border-color: var(--semiOrange);
+    font-size: 17px;
 }
 .save-btn button:hover,
 .save-btn button:focus {
@@ -367,4 +365,10 @@ textarea.form-control {
 }
 .sm\:justify-between {
     flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        max-width: 800px;
+    }
 }

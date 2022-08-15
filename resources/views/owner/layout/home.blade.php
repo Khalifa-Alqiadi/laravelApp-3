@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    {{-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('css/jquery-ui.css')}}">
@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="{{ URL::asset('css/owner.css')}}">
     <livewire:styles />
     <livewire:scripts />
-    <script src="{{asset('js/app.js')}}"></script>
+    {{-- <script src="{{asset('js/app.js')}}"></script> --}}
+    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 </head>
 <body>
     <div class="d-flex">
@@ -26,12 +27,9 @@
         <div class="holder aside bg-dark">
             <!-- Sidebar Holder -->
             <aside id="sidebar">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center mt-4">
                     <div class="logo">
-                        <div class="cornerstyle px-4 pt-3">
-                            <br>
-                            <a class="navbar-brand border p-2 text-light mx-auto logo-box1" href="#">CAC</a>
-                        </div>
+                        <a class="navbar-brand border p-2 text-light mx-auto logo-box1" href="#">{{Auth::user()->name}}</a>
                     </div>
                     <div class="navbar-header">
                         <button type="button" id="sidebarCollapse" class="bttn border-0 px-4">
@@ -54,46 +52,11 @@
 
                     </li>
                     <li>
-                       <a href="ownerProfile"  class="{{ Request::segment(1) === 'profile' ? 'active' : 'text-light' }} p-3 text-light "><h6 ><i class="bi bi-person-bounding-box active mx-2">  </i>  المعلومات الشخصية</h6></a> 
-
-                    </li>
-                   
-                    <li class="active dropdown2">
-                        <h6> <a class="dropdown-toggle text-light py-3" data-toggle="collapse"
-                        aria-expanded="false"> <i class="bi bi-menu-button-fill active mx-4"></i> إدارة
-                        طلبات المزايدة</a></h6>
-                        <ul class="collapse list-unstyled fs-6" id="manage2">
-                            <li><a href="" class="{{ Request::segment(1) === 'AuctionCars' ? 'active' : 'text-light' }} text-light p-3">  <i class="bi bi-clipboard-check active me-5 p-2"></i> سيارات تمت المزايدة عليها</a></li>
-                            <li><a href="" class="{{ Request::segment(1) === 'UserUncomplateAuctions' ? 'active' : 'text-light' }}text-light  p-3"><i class="bi bi-clipboard-x  active me-5 p-2"></i> المزادات الغير مكتملة الشراء</a></li>
-                            <li><a href="" class="{{ Request::segment(1) === 'UserComplateAuctions' ? 'active' : 'text-light' }} text-light  p-3"> <i class="bi bi-clipboard-check active me-5 p-2"></i> المزادات المكتملة</a></li>
-
-
-                        </ul>
+                       <a href="ownerProfile"  class="{{ Request::segment(1) === 'profile' ? 'active' : 'text-light' }} p-3 text-light "><h6 ><i class="bi bi-person-bounding-box active mx-2">  </i>profile</h6></a> 
                     </li>
                     <li>  <a href="" class="card-link active  mt-5 mb-2 text-center"> العودة للرئيسية <i class="fa fa-long-arrow-left p-2 pt-1"> </i></a></li>
                 </ul>
-              
-                <ul class="list-unstyled  fs-6 py-4">
-                    
-                    <div class="d-flex flex-wrap justify-content-around w-50 m-auto">
-                        <div class="fa fa-facebook  text-light"></div>
-                        <div class="fa fa-instagram  text-light"></div>
-                        <div class="fa fa-whatsapp  text-light"></div>
-                        <div class="fa fa-facebook text-light"></div>
-                        <div class="fa  fa-envelope-o text-light"></div>
-                    </div>
-                    <li class="w-100"><a
-                            class="nav-item text-center contact text-light fs-5 py-2  mt-3 mx-5 d-block px-3">
-                            777 777 777<i class="fa fa-phone px-2 fs-4"></i></a>
-                    </li>
-                </ul>
             </aside>
-
-
-
-            <!-- Page Content Holder -->
-
-
 
         </div>
         <div class="w-100"  style="">
@@ -162,8 +125,9 @@
     <script src="{{ URL::asset('js/bootstrap.min.js')}}"></script>
     {{-- <script src="{{ URL::asset('js/login.js')}}"></script> --}}
     <script src="{{ URL::asset('js/main.js')}}"></script>
-    <livewire:scripts />
     
+    {{-- <livewire:scripts /> --}}
+    @stack('scripts_after')
 </body>
 </html>
 

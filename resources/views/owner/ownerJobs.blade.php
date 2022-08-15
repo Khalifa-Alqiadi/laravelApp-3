@@ -1,5 +1,6 @@
 
 @extends('owner.layout.home')
 @section('content')
-@livewire('all-jobs');
+
+<livewire:all-jobs>
 @endsection

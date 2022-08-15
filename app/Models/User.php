@@ -14,9 +14,9 @@ class User extends Authenticatable
     use LaratrustUserTrait;
 
 
-    protected $table="users";
-    protected $primaryKey="id";
-    
+    protected $table = "users";
+    protected $primaryKey = "id";
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar',
+        'name', 'email', 'password', 'avatar',
     ];
 
     /**
@@ -46,20 +46,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function userSkill(){
+    public function userSkill()
+    {
         return $this->hasMany(Skill::class, 'user_id');
     }
-    public function userExperience(){
+    public function userExperience()
+    {
         return $this->hasOne(Experience::class, 'user_id');
     }
-    public function userQualifcation(){
+    public function userQualifcation()
+    {
         return $this->hasOne(Qualifcation::class, 'user_id');
     }
-    public function userCourse(){
+    public function userCourse()
+    {
         return $this->hasOne(Course::class, 'user_id');
     }
-    public function skills(){
+    public function skills()
+    {
         return $this->hasOne(Skill::class, 'user_id');
     }
-    
+
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'user_id');
+    }
 }
