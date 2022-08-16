@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('css/jquery-ui.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{ URL::asset('css/swiper-bundle.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('css/style.css')}}">
 
     <livewire:styles />
