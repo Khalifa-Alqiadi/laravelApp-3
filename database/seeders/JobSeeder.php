@@ -60,144 +60,122 @@ class JobSeeder extends Seeder
 
         $job01['name'] = 'Security Guard';
         $job01['description'] = $info;
-        $job01['address_name'] = 'Sanaa';
         $job01['start_date'] = '2022-9-1';
         $job01['end_date'] = '2022-10-1';
         $job01['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job01['company_id'] = 2;
         $job01['city_id'] = 1;
-        $job01['image'] = 'DRC.png';
         Job::create($job01);
 
 
         $job02['name'] = 'Security Guard';
         $job02['description'] = $info;
-        $job02['address_name'] = 'Sanaa';
         $job02['start_date'] = '2022-09-01';
         $job02['end_date'] = '2032-02-01';
         $job02['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job02['company_id'] = 2;
         $job02['city_id'] = 2;
-        $job02['image'] = 'FAO.png';
         Job::create($job02);
 
 
         $job03['name'] = 'Web Developer';
         $job03['description'] = $info;
-        $job03['address_name'] = 'Sanaa';
         $job03['start_date'] = '2022-09-01';
         $job03['end_date'] = '2032-02-01';
         $job03['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job03['company_id'] = 3;
         $job03['city_id'] = 3;
-        $job03['image'] = 'FHD.jpg';
         Job::create($job03);
 
 
         $job04['name'] = 'Applictions Developer';
         $job04['description'] = $info;
-        $job04['address_name'] = 'Sanaa';
         $job04['start_date'] = '2022-09-01';
         $job04['end_date'] = '2032-02-01';
         $job04['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job04['company_id'] = 3;
         $job04['city_id'] = 1;
-        $job04['image'] = 'UNHCR.png';
+
         Job::create($job04);
 
 
         $job05['name'] = 'Full Stack Developer';
         $job05['description'] = $info;
-        $job05['address_name'] = 'Tize';
         $job05['start_date'] = '2022-09-01';
         $job05['end_date'] = '2032-02-01';
         $job05['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job05['company_id'] = 2;
         $job05['city_id'] = 4;
-        $job05['image'] = 'FHD.jpg';
         Job::create($job05);
 
 
         $job06['name'] = 'Web Developer';
         $job06['description'] = $info;
-        $job06['address_name'] = 'Tize';
         $job06['start_date'] = '2022-09-01';
         $job06['end_date'] = '2032-02-01';
         $job06['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job06['company_id'] = 2;
         $job06['city_id'] = 2;
-        $job06['image'] = 'IRC.png';
         Job::create($job06);
 
         $job07['name'] = 'Security Guard';
         $job07['description'] = $info;
-        $job07['address_name'] = 'Sanaa';
         $job07['start_date'] = '2022-9-1';
         $job07['end_date'] = '2022-10-1';
         $job07['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job07['company_id'] = 2;
         $job07['city_id'] = 1;
-        $job07['image'] = 'DRC.png';
         Job::create($job07);
 
 
         $job08['name'] = 'Security Guard';
         $job08['description'] = $info;
-        $job08['address_name'] = 'Sanaa';
         $job08['start_date'] = '2022-09-01';
         $job08['end_date'] = '2032-02-01';
         $job08['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job08['company_id'] = 2;
         $job08['city_id'] = 3;
-        $job08['image'] = 'FAO.png';
         Job::create($job08);
 
 
         $job09['name'] = 'Web Developer';
         $job09['description'] = $info;
-        $job09['address_name'] = 'Sanaa';
         $job09['start_date'] = '2022-09-01';
         $job09['end_date'] = '2032-02-01';
         $job09['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job09['company_id'] = 3;
         $job09['city_id'] = 6;
-        $job09['image'] = 'FHD.jpg';
         Job::create($job09);
 
 
         $job10['name'] = 'Applictions Developer';
         $job10['description'] = $info;
-        $job10['address_name'] = 'Sanaa';
         $job10['start_date'] = '2022-09-01';
         $job10['end_date'] = '2032-02-01';
         $job10['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job10['company_id'] = 3;
         $job10['city_id'] = 8;
-        $job10['image'] = 'UNHCR.png';
+
         Job::create($job10);
 
 
         $job11['name'] = 'Full Stack Developer';
         $job11['description'] = $info;
-        $job11['address_name'] = 'Tize';
         $job11['start_date'] = '2022-09-01';
         $job11['end_date'] = '2032-02-01';
         $job11['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job11['company_id'] = 2;
         $job11['city_id'] = 1;
-        $job11['image'] = 'FHD.jpg';
         Job::create($job11);
 
 
         $job12['name'] = 'Web Developer';
         $job12['description'] = $info;
-        $job12['address_name'] = 'Tize';
         $job12['start_date'] = '2022-09-01';
         $job12['end_date'] = '2032-02-01';
         $job12['link'] = 'https://forms.gle/1KFskcB2dNerpU2r7';
         $job12['company_id'] = 2;
         $job12['city_id'] = 1;
-        $job12['image'] = 'IRC.png';
         Job::create($job12);
     }
 }

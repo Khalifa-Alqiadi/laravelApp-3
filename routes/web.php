@@ -14,7 +14,10 @@ use App\Http\Controllers\front\CompaniesController as FrontCompaniesController;
 use App\Http\Controllers\front\DetailsController;
 use App\Http\Controllers\front\JobsController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Owner\ApplyController;
+use App\Http\Controllers\userDashboard\UserCV;
 use App\Http\Controllers\userDashboard\UserDashboardController;
+use App\Http\Controllers\userDashboard\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -34,28 +37,24 @@ Route::post('/registerCompany', [AuthController::class, 'registerCompany'])->nam
 Route::post('/user_login', [AuthController::class, 'login'])->name('user_login');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/details', [DatialsController::class, 'detialsShow']);
-Route::get('/details/{name}', [DetailsController::class, 'show'])->name('details.show');
-Route::get('/job/{name}', [DetailsController::class, 'show'])->name('job.show');
+Route::get('/details/{id}', [DetailsController::class, 'show'])->name('details.show');
+Route::get('/job/{id}/{name}', [DetailsController::class, 'show'])->name('job.show');
 Route::get('jobs', [JobsController::class, 'show'])->name('jobs');
 Route::get('/companies', [FrontCompaniesController::class, 'show'])->name('companies-front');
-Route::get('/', [IndexController::class, 'show']);
-// Route::get('/userLogin', [AuthController::class, 'userLogin']);
+Route::get('/company/{name}', [FrontCompaniesController::class, 'details'])->name('company.show');
+Route::get('/', [IndexController::class, 'show'])->name('home');
+Route::get('/home', [IndexController::class, 'show']);
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('/home', [IndexController::class, 'indexShow'])->name('home');
-
-
-
-
-
-	// Route::livewire('all_jops', 'all-jobs');
 	// Abmin Dashboard
 	Route::get('/ownerDashboard', [HomeOwnerController::class, 'showOwnerDashboard'])->name('ownerDashboard');
 	Route::get('/all_jops', [HomeOwnerController::class, 'allJobs'])->name('all_jops');
+	Route::get('/apply/{id}', [ApplyController::class, 'apply'])->name('apply.show');
 	Route::get('/end_jobs', [HomeOwnerController::class, 'endJobs'])->name('end_jobs');
 	Route::get('/ownerProfile', [profileOwnerController::class, 'ownerProfile'])->name('ownerProfile');
 	// User Dashboard
 
 	Route::get('/userDashboard', [UserDashboardController::class, 'showUserDashboard'])->name('userDashboard');
+	Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('user-profile.show');
 
 	Route::get('/showSkills', [UserDashboardController::class, 'showSkills'])->name('showSkills');
 	Route::get('/edit_skill/{id}', [UserDashboardController::class, 'edit_skill'])->name('edit_skill');
@@ -67,12 +66,17 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/edit_experience_user', [UserDashboardController::class, 'editExperienceUserDashboard'])->name('edit_experience_user');
 	Route::get('/edit_experience/{id}', [UserDashboardController::class, 'edit_experience'])->name('edit_experience');
 	Route::post('/delete_experience_user', [UserDashboardController::class, 'deleteExperienceUserDashboard'])->name('delete_experience_user');
+	Route::get('/showQualifcations', [UserDashboardController::class, 'showQualifcations'])->name('showQualifcations');
 	Route::post('/add_qualifcations_user', [UserDashboardController::class, 'insertQualifcationsUserDashboard'])->name('add_qualifcations_user');
+	Route::get('/edit_qualifcations/{id}', [UserDashboardController::class, 'editQualifcation'])->name('edit_qualifcations');
 	Route::post('/edit_qualifcations_user', [UserDashboardController::class, 'editQualifcationsUserDashboard'])->name('edit_qualifcations_user');
-	Route::post('/delete_qualifcations_user', [UserDashboardController::class, 'deleteQualifcationsUserDashboard'])->name('delete_qualifcations_user');
+	Route::post('/delete_qualifcation_user', [UserDashboardController::class, 'deleteQualifcationsUserDashboard'])->name('delete_qualifcation_user');
+	Route::get('/showCourses', [UserDashboardController::class, 'showCourses'])->name('showCourses');
 	Route::post('/add_Courses_user', [UserDashboardController::class, 'addCoursesUser'])->name('add_Courses_user');
-	Route::post('/edit_courses_user', [UserDashboardController::class, 'editCoursesUser'])->name('edit_courses_user');
-	Route::post('/delete_courses_user', [UserDashboardController::class, 'deleteCoursesUser'])->name('delete_courses_user');
+	Route::get('/edit_course/{id}', [UserDashboardController::class, 'editCourses'])->name('edit_course');
+	Route::post('/edit_Courses_user', [UserDashboardController::class, 'editCoursesUser'])->name('edit_Courses_user');
+	Route::post('/delete_course_user', [UserDashboardController::class, 'deleteCoursesUser'])->name('delete_course_user');
+	Route::get('/userCV/{id}', [UserCV::class, 'show'])->name('userCV.show');
 });
 
 Route::group(['middleware' => 'auth'], function () {

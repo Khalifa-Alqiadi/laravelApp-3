@@ -11,150 +11,130 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    //
 
-    public function listAll(){
-
-        $users=User::where('is_active',1)
-        ->where('email_verified_at','!=',NULL)
-        ->orWhere('name','like','%af%')
-        ->orderBy('user_id','desc')
-       // ->take(2)
-        ->get();
-        //$user=User::find(1);
-        //return response($user);
-        return view('admin.users.list_users')
-        ->with('allUsers',$users);
-    }
-
-    public function showLogin(){
-        if(Auth::check())
-        return redirect()->route($this->checkRole());
-        else 
-        return view('login');
+    public function showLogin()
+    {
+        if (Auth::check())
+            return redirect()->route($this->checkRole());
+        else
+            return view('login');
     }
 
 
 
-    public function checkRole(){
-        if(Auth::user()->hasRole('super_admin'))
-        return 'dashboard';
-            else 
+    public function checkRole()
+    {
+        if (Auth::user()->hasRole('super_admin'))
+            return 'dashboard';
+        else
             return 'home';
     }
 
-    public function login(Request $request){
-        Validator::validate($request->all(),[
-            'user_email'=>['email','required','min:3','max:50'],
-            'password'=>['required','min:5']
+    public function login(Request $request)
+    {
+        Validator::validate($request->all(), [
+            'user_email' => ['email', 'required', 'min:3', 'max:50'],
+            'password' => ['required', 'min:5']
 
 
-        ],[
-            'user_email.required'=>'this field is required',
-            'user_email.min'=>'can not be less than 3 letters', 
-           
+        ], [
+            'user_email.required' => 'this field is required',
+            'user_email.min' => 'can not be less than 3 letters',
+
         ]);
 
-        if(Auth::attempt(['email'=>$request->user_email,'password'=>$request->password])){
+        if (Auth::attempt(['email' => $request->user_email, 'password' => $request->password])) {
 
-            
-            if(Auth::user()->hasRole('super_admin'))
-            return redirect()->route('dashboard');
-            else 
-            return redirect()->route('home');
 
-        
+            if (Auth::user()->hasRole('super_admin'))
+                return redirect()->route('dashboard');
+            else
+                return redirect()->route('home');
+        } else {
+            return redirect()->route('login')->with(['message' => 'incorerct username or password or your account is not active ']);
         }
-        else {
-            return redirect()->route('login')->with(['message'=>'incorerct username or password or your account is not active ']);
-        }
-
-        
     }
 
-    public function createUser(){
+    public function createUser()
+    {
         return view('admin.login');
     }
-    public function loginUser(Request $request){
+    public function loginUser(Request $request)
+    {
 
-        Validator::validate($request->all(),[
-            'username'=>['required','min:3','max:10'],
-            'email'=>['required','email','unique:users,email'],
-            'password'=>['required','min:5'],
+        Validator::validate($request->all(), [
+            'username' => ['required', 'min:3', 'max:10'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:5'],
 
-        ],[
-            'username.required'=>'this field is required',
-            'username.min'=>'can not be less than 3 letters', 
-            'email.unique'=>'there is an email in the table',
-            'email.required'=>'this field is required',
-            'email.email'=>'incorrect email format',
-            'password.required'=>'password is required',
-            'password.min'=>'password should not be less than 3',
+        ], [
+            'username.required' => 'this field is required',
+            'username.min' => 'can not be less than 3 letters',
+            'email.unique' => 'there is an email in the table',
+            'email.required' => 'this field is required',
+            'email.email' => 'incorrect email format',
+            'password.required' => 'password is required',
+            'password.min' => 'password should not be less than 3',
         ]);
 
-        $u=new User();
-        $u->name=$request->username;
-        $u->password=Hash::make($request->password);
-        $u->email=$request->email;
-        if($u->save()){
+        $u = new User();
+        $u->name = $request->username;
+        $u->password = Hash::make($request->password);
+        $u->email = $request->email;
+        if ($u->save()) {
             $u->attachRole('client');
             return redirect()->route('home')
-            ->with(['success'=>'user created successful']);
+                ->with(['success' => 'user created successful']);
         }
-        return back()->with(['error'=>'can not create user']);
-
+        return back()->with(['error' => 'can not create user']);
     }
-    public function registerCompany(Request $request){
+    public function registerCompany(Request $request)
+    {
 
-        Validator::validate($request->all(),[
-            'username'=>['required','min:3','max:10'],
-            'email'=>['required','email','unique:users,email'],
-            'password'=>['required','min:5'],
+        Validator::validate($request->all(), [
+            'username' => ['required', 'min:3', 'max:10'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:5'],
 
-        ],[
-            'username.required'=>'this field is required',
-            'username.min'=>'can not be less than 3 letters', 
-            'email.unique'=>'there is an email in the table',
-            'email.required'=>'this field is required',
-            'email.email'=>'incorrect email format',
-            'password.required'=>'password is required',
-            'password.min'=>'password should not be less than 3',
+        ], [
+            'username.required' => 'this field is required',
+            'username.min' => 'can not be less than 3 letters',
+            'email.unique' => 'there is an email in the table',
+            'email.required' => 'this field is required',
+            'email.email' => 'incorrect email format',
+            'password.required' => 'password is required',
+            'password.min' => 'password should not be less than 3',
         ]);
 
-        $u=new User();
-        $u->name=$request->username;
-        $u->password=Hash::make($request->password);
-        $u->email=$request->email;
-        if($u->save()){
+        $u = new User();
+        $u->name = $request->username;
+        $u->password = Hash::make($request->password);
+        $u->email = $request->email;
+        if ($u->save()) {
             $u->attachRole('owner');
             return redirect()->route('home')
-            ->with(['success'=>'user created successful']);
+                ->with(['success' => 'user created successful']);
         }
-        return back()->with(['error'=>'can not create user']);
-
+        return back()->with(['error' => 'can not create user']);
     }
 
-    
 
 
-    public function editUser(){
-        $u=User::find(5);
-        if($u->hasRole('admin'))
-        {
-            
-        }
-        else {
-            
+
+    public function editUser()
+    {
+        $u = User::find(5);
+        if ($u->hasRole('admin')) {
+        } else {
         }
     }
-    public function resetPassword(){
-
+    public function resetPassword()
+    {
     }
-    public function logout(){
+    public function logout()
+    {
 
         Auth::logout();
         return redirect()->route('login');
-
     }
-
 }

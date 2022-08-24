@@ -21,10 +21,11 @@
         <div class="navbar-header2  my-5 justify-content-between ">
             <button type="button" id="sidebarCollapse" class="bttn border-0 px-4">
                 <div class=" my-1 px-3 bg-light sidemenu"> </div>
+                <div class=" bg-light my-1 px-2 sidemenu"> </div>
                 <div class=" bg-light sidemenu"> </div>
             </button>
         </div>
-        <div class="holder aside bg-dark">
+        <div class="holder aside bg-dark mobile">
             <!-- Sidebar Holder -->
             <aside id="sidebar">
                 <div class="d-flex justify-content-between align-items-center mt-4">
@@ -69,7 +70,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse col-md-8 navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav w-100 me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav w-100 me-auto mb-2 mb-lg-0 bg-dark">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="home">Home</a>
                         </li>
@@ -120,6 +121,18 @@
         </div>
         </div>
     </div>
+    <section id="footer" class="bg-dark">
+        <div class="footer">
+            <h1>Yemen UP</h1>
+            <div class="icons">
+                <img src="{{ URL::asset('images/icon.png')}}" alt="" srcset="">
+                <img src="{{ URL::asset('images/icon1.png')}}" alt="" srcset="">
+                <img src="{{ URL::asset('images/icon2.png')}}" alt="" srcset="">
+                <img src="{{ URL::asset('images/icon3.png')}}" alt="" srcset="">
+            </div>
+            <p>Copyright &copy YemenUP</p>
+        </div>
+    </section>
     <script src="{{ URL::asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{ URL::asset('js/jquery-ui.min.js')}}"></script>
     <script src="{{ URL::asset('js/bootstrap.min.js')}}"></script>

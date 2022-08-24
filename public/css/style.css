@@ -2,7 +2,6 @@
 
 body {
     font-size: 14px;
-    font-family: cursive;
 }
 
 h1 {
@@ -172,13 +171,17 @@ a {
     border-radius: 10%;
     height: 40%;
 }
+.hero-info-card .card .card-body .info-text {
+    margin-top: 10px;
+}
 .carousel-control-next,
 .carousel-control-prev {
     z-index: 3;
 }
-.carousel-caption .card .card-body {
+.hero-info-card .card .card-body {
     text-align: left;
     margin-top: 20px;
+    flex-direction: column;
 }
 .carousel-caption .card img {
     float: left;
@@ -189,7 +192,10 @@ a {
     background-color: transparent;
     border: 0;
 }
-
+.slider-hero {
+    position: relative;
+    box-shadow: 0px 52px 40px 0px #cccccc96;
+}
 #slider-jobs {
     margin-top: 5%;
     width: 88%;
@@ -210,14 +216,15 @@ a {
 
 #slider-jobs .card {
     flex: 0 0 auto;
+    width: 22rem;
 }
 #slider-jobs .card .card-bady img {
     width: 30%;
 }
-#slider-jobs .items {
+.items-jobs .items {
     position: relative;
 }
-#slider-jobs .items .info {
+.items-jobs .items .info {
     position: absolute;
     left: 10%;
     top: 10%;
@@ -257,9 +264,6 @@ a {
     transition: all 5s ease-in-out;
     transform-style: preserve-3d;
     height: 100%;
-}
-.collapse:not(.show) {
-    display: block;
 }
 .input-group form ul {
     width: 100%;
@@ -351,6 +355,15 @@ a {
     .comp .list-items {
         flex-direction: column;
         width: 100%;
+    }
+    .hero-info-card .card {
+        flex-direction: column;
+    }
+    .hero-info-card .card .card-header {
+        width: auto;
+    }
+    .hero-info-card .card .card-body {
+        flex-direction: row;
     }
 }
 

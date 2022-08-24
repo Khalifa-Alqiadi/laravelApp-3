@@ -94,6 +94,7 @@ a:focus {
 
 .aside {
     width: 24em;
+    position: relative;
 }
 
 #sidebar ul li a {
@@ -211,8 +212,9 @@ a:focus {
     left: 2.8%;
     z-index: 4444;
 }
-
-.navbar-header2:hover .sidemenu,
+.navbar-header2 .sidemenu {
+    background-color: var(--semiOrange) !important;
+}
 .navbar-header2:focus .sidemenu {
     background-color: var(--semiOrange) !important;
 }
@@ -310,6 +312,9 @@ textarea.form-control {
     #sidebarCollapse.active .menu:first-of-type {
         transform: rotate(45deg) translate(2px, 2px);
     }
+    .mobile {
+        display: none;
+    }
 }
 
 @media (max-width: 1199px) {
@@ -351,16 +356,10 @@ textarea.form-control {
         margin: auto !important;
     }
     #sidebar {
-        width: 24em;
+        width: 100%;
         position: absolute;
         z-index: 9999;
         background-color: var(--lightgrey);
-    }
-    .collapse {
-        background-color: var(--lightgrey);
-        margin-top: 70px;
-        padding: 25px;
-        width: 100%;
     }
 }
 .sm\:justify-between {

@@ -86,7 +86,6 @@ class OwnerProfile extends Component
         }
         $img = ImageManagerStatic::make($this->image)->encode('jpg');
         $name = Str::random() . '.jpg';
-        // $img->move(public_path('images'), $name);
         Storage::disk('public')->put($name, $img);
         return $name;
     }

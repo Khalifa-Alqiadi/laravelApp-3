@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\City;
 use App\Models\Job;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -21,14 +22,7 @@ class AllJobs extends Component
     public $start;
     public $end;
     public $link;
-    public $image;
-    protected $listeners = [
-        'fileUpload' => 'handleFileUpload',
-    ];
-    public function handleFileUpload($imageData)
-    {
-        $this->image = $imageData;
-    }
+    public $job_id;
     public function add_Job()
     {
         $this->validate([
@@ -38,35 +32,52 @@ class AllJobs extends Component
             'start'         => 'required',
             'end'           => 'required',
             'link'          => 'required',
-            'image'         => 'required',
         ]);
-        $image = $this->storeImage();
         $job = new Job;
         $job->name = $this->name;
         $job->description = $this->description;
-        $job->address_name = $this->address;
+        $job->city_id = $this->address;
         $job->start_date = $this->start;
         $job->end_date = $this->end;
         $job->link = $this->link;
-        $job->image = $image;
         $job->company_id = Auth::id();
         $job->save();
 
         session()->flash('message', 'job added successfully');
     }
 
-
-
-    public function storeImage()
+    public function editJobs($id)
     {
-        if (!$this->image) {
-            return null;
+        $job = Job::find($id);
+        if ($job) {
+            $this->job_id           = $job->id;
+            $this->name             = $job->name;
+            $this->description      = $job->description;
+            $this->address          = $job->city_id;
+            $this->start            = $job->start_date;
+            $this->end              = $job->end_date;
+            $this->link             = $job->link;
+        } else {
+            redirect()->to('/jobs');
         }
-        $img = ImageManagerStatic::make($this->image)->encode('jpg');
-        $name = Str::random() . '.jpg';
-        Storage::disk('public')->put($name, $img);
-        return $name;
     }
+
+    public function updateJob()
+    {
+        $job                    = Job::find($this->job_id);
+        $job->name              = $this->name;
+        $job->description       = $this->description;
+        $job->city_id           = $this->address;
+        $job->start_date        = $this->start;
+        $job->end_date          = $this->end;
+        $job->link              = $this->link;
+
+        if ($job->update()) {
+            session()->flash('message', 'Job updated successfully 😉');
+        }
+    }
+
+
     public function removeJob($id)
     {
         $job = Job::find($id);
@@ -74,14 +85,32 @@ class AllJobs extends Component
         $job->delete();
         session()->flash('message', 'Job deleted successfully 😉');
     }
+
+
+    public function closeModel()
+    {
+        $this->resetInput();
+    }
+
     public function render()
     {
-        $description = 'description';
         $jobs = Job::where('company_id', Auth::id())->get();
+        $cities = City::get();
         return view('livewire.all-jobs', [
-            'descr'         => $description,
-            'users'         => User::get(),
             'jobs'          => $jobs,
+            'cities'        => $cities,
         ]);
+    }
+
+
+    public function resetInput()
+    {
+        $this->name = '';
+        $this->description = '';
+        $this->address = '';
+        $this->start = '';
+        $this->end = '';
+        $this->link = '';
+        $this->image = '';
     }
 }

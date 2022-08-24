@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Qualifcation extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name', 'depart', 'university', 'user_id'
+    ];
 }

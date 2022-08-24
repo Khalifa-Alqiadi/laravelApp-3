@@ -40,22 +40,27 @@
                     </div>
                 </div>
                 <div class="col sm-2 ">
-                    <div class="content-right">
-                        <img src="../layout/images/UNHCR.png" class="img-responsive img-fluid img-thumbnail" alt="">
-                        <hr>
-                        <div class="comp-info">
-                            <h2 class="card-header">Other jobs from Al-Awn Foundation for Development</h2>
-                            @if (isset($jobs))
-                                @foreach ($jobs as $job)
-                                    <div class="lists">
-                                        <h4>{{$job->name}}</h4>
-                                        <p>Deadline: {{date_format(new DateTime($job->end_date),'j M, Y')}}</p>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        <div class="save">
-                            <p><i class="fa fa-bookmark"></i> Save (Login required)</p>
+                    <div class="row">
+                        <livewire:apply-front  :job="$job">
+                        <div class="col-md-12">
+                            <div class="content-right">
+                                <img src="../layout/images/UNHCR.png" class="img-responsive img-fluid img-thumbnail" alt="">
+                                <hr>
+                                <div class="comp-info">
+                                    <h2 class="card-header">Other jobs from Al-Awn Foundation for Development</h2>
+                                    @if (isset($jobs))
+                                        @foreach ($jobs as $job)
+                                            <div class="lists">
+                                                <h4>{{$job->name}}</h4>
+                                                <p>Deadline: {{date_format(new DateTime($job->end_date),'j M, Y')}}</p>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <div class="save">
+                                    <p><i class="fa fa-bookmark"></i> Save (Login required)</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -13,13 +13,22 @@ class CompaniesController extends Controller
     public function show()
     {
         // $count = 
-        $companies = User::get();
-        $top = Company::find(1);
+        $companies = User::with('companyJob')->get();
+        // dd($companies);
+        $count = Company::count();
         $jobs = Job::where('is_active', 1)->get();
         return view('front.companies', [
             'jobs'             => $jobs,
             'companies'        => $companies,
-            'top'              => $top,
+            'count'            => $count,
+        ]);
+    }
+
+    public function details($name)
+    {
+        $company = User::firstWhere('name', $name);
+        return view('front.company-details', [
+            'company'       => $company,
         ]);
     }
 }

@@ -1,18 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\userDashboard;
+
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\Experience;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserQualifcations;
+use App\Models\Course;
+use App\Models\Qualifcation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+
 class UserDashboardController extends Controller
 {
     //
-    function showUserDashboard(){
+    function showUserDashboard()
+    {
         $role = DB::table('role_user')->get()->first();
         $user = User::find(Auth::id());
         $skills = User::with(['userSkill'])->get();
@@ -27,251 +33,271 @@ class UserDashboardController extends Controller
             'courses'    => $courses,
         ]);
     }
-    function showSkills(){
+    function showSkills()
+    {
         $user = User::find(Auth::id());
         $skills = Skill::where('user_id', $user->id)->get();
-        if($skills){
+        if ($skills) {
             return response()->json([
                 'status'    => 1,
                 'skills'     => $skills
             ]);
-        }else{
-            return response()->json(['status' => 0, 'error'=> 'Not Found']);
-        } 
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
+        }
     }
-    function insertSkillUserDashboard(Request $request){
+    function insertSkillUserDashboard(Request $request)
+    {
         $validte = Validator::make($request->all(), [
             'user_id'   => 'required',
             'name'      => 'required',
             'percent'   => 'required'
         ]);
-        if(!$validte->passes()){
-            return response()->json(['status' => 0, 'error'=> $validte->errors()->toArray()]);
-        }else{
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
             $skills = new Skill;
             $skills->name = $request->name;
             $skills->percent = $request->percent;
             $skills->user_id = $request->user_id;
-            if($skills->save())
-            return response()->json(['status' => 1, 'success'=>'Skill Inserted Successful']);
-            return back()->with(['error'=>'can not create user']);
+            if ($skills->save())
+                return response()->json(['status' => 1, 'success' => 'Skill Inserted Successful']);
+            return back()->with(['error' => 'can not create user']);
         }
     }
-    function edit_skill($id){
+    function edit_skill($id)
+    {
         $skill = Skill::find($id);
-        if($skill){
+        if ($skill) {
             return response()->json([
                 'status'    => 1,
                 'skill'     => $skill
             ]);
-        }else{
-            return response()->json(['status' => 0, 'error'=> 'Not Found']);
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
         }
     }
-    function editSkillUserDashboard(Request $request){
+    function editSkillUserDashboard(Request $request)
+    {
         $validte = Validator::make($request->all(), [
             'name'      => 'required',
             'percent'   => 'required'
         ]);
-        if(!$validte->passes()){
-            return response()->json(['status' => 0, 'error'=> $validte->errors()->toArray()]);
-        }else{
-            
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
+
             $id = $request->input('id');
             $editSkill = Skill::find($id);
             $editSkill->name = $request->input('name');
             $editSkill->percent = $request->input('percent');
 
-            if($editSkill->update())
-            return response()->json(['status' => 1, 'success'=>'Skill Inserted Successful']);
-            return back()->with(['error'=>'can not create user']);
+            if ($editSkill->update())
+                return response()->json(['status' => 1, 'success' => 'Skill Inserted Successful']);
+            return back()->with(['error' => 'can not create user']);
         }
     }
-    function deleteSkillUserDashboard(Request $request){
+    function deleteSkillUserDashboard(Request $request)
+    {
         $id = $request->id;
         $delete = Skill::find($id);
-        if($delete->delete()){
+        if ($delete->delete()) {
             return response()->json([
                 'status'    => 1,
                 'success'     => 'Skill Delete Successfull'
             ]);
-        }else{
-            return response()->json(['status' => 0, 'error'=> 'Not Found']);
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
         }
     }
 
-    function showExperience(){
+    function showExperience()
+    {
         $user = User::find(Auth::id());
         $experience = Experience::where('user_id', $user->id)->get();
-        if($experience){
+        if ($experience) {
             return response()->json([
                 'status'            => 1,
                 'experience'        => $experience
             ]);
-        }else{
-            return response()->json(['status' => 0, 'error'=> 'Not Found']);
-        } 
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
+        }
     }
 
-    function insertExperienceUserDashboard(Request $request){
+    function insertExperienceUserDashboard(Request $request)
+    {
         $validte = Validator::make($request->all(), [
             'name'      => 'required',
             'years'   => 'required'
         ]);
-        if(!$validte->passes()){
-            return response()->json(['status' => 0, 'error'=> $validte->errors()->toArray()]);
-        }else{
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
             $experience = new Experience;
             $experience->user_id = $request->userid;
             $experience->name = $request->name;
             $experience->years = $request->years;
-            if($experience->save())
-            return response()->json(['status' => 1, 'success'=>'Experience Inserted Successful']);
-            return back()->with(['error'=>'can not inserted']);
+            if ($experience->save())
+                return response()->json(['status' => 1, 'success' => 'Experience Inserted Successful']);
+            return back()->with(['error' => 'can not inserted']);
         }
     }
-    
-    function edit_experience($id){
+
+    function edit_experience($id)
+    {
         $experience = Experience::find($id);
-        if($experience){
+        if ($experience) {
             return response()->json([
                 'status'    => 1,
                 'experience'     => $experience
             ]);
-        }else{
-            return response()->json(['status' => 0, 'error'=> 'Not Found']);
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
         }
     }
-    function editExperienceUserDashboard(Request $request){
+    function editExperienceUserDashboard(Request $request)
+    {
         $validte = Validator::make($request->all(), [
             'name'      => 'required',
             'years'   => 'required'
         ]);
-        if(!$validte->passes()){
-            return response()->json(['status' => 0, 'error'=> $validte->errors()->toArray()]);
-        }else{
-            
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
+
             $id = $request->input('id');
             $editExperience = Experience::find($id);
             $editExperience->name = $request->input('name');
             $editExperience->years = $request->input('years');
 
-            if($editExperience->update())
-            return response()->json(['status' => 1, 'success'=>'Experience Updated Successful']);
-            return back()->with(['error'=>'can not Updated']);
+            if ($editExperience->update())
+                return response()->json(['status' => 1, 'success' => 'Experience Updated Successful']);
+            return back()->with(['error' => 'can not Updated']);
         }
     }
-    function deleteExperienceUserDashboard(Request $request){
+    function deleteExperienceUserDashboard(Request $request)
+    {
         $id = $request->experienceid;
         $deleteExperience = Experience::find($id);
-        if($deleteExperience->delete())
-        return response()->json(['status' => 1, 'success'=>'Experience Deleted Successful']);
-        return response()->json(['error'=>'can not Deleted']);
+        if ($deleteExperience->delete())
+            return response()->json(['status' => 1, 'success' => 'Experience Deleted Successful']);
+        return response()->json(['error' => 'can not Deleted']);
     }
-    function insertQualifcationsUserDashboard(Request $request){
-        $userid = $request->userid;
-        $name = $request->name;
-        $depart = $request->depart;
-        $university = $request->university;
-        $qualifcations = DB::table('qualifcations')->insert([
-            'name'      => $name,
-            'depart'   => $depart,
-            'university'   => $university,
-            'user_id'   => $userid
-        ]);
-        if($qualifcations){?>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-            <?php
-            $mes = "<div class='alert alert-success'> inserted successful</div>";
-            $this->redirectHome($mes, 'back', 5);
-            return redirect()->route('userDashboard')
-            ->with(['success'=>'user created successful']);
-        }else{
-            return back()->with(['error'=>'can not create user']);
+
+    // Start Qualifcations
+
+    public function showQualifcations()
+    {
+
+        $user = User::find(Auth::id());
+        $qualifcations = Qualifcation::where('user_id', $user->id)->get();
+        if ($qualifcations) {
+            return response()->json([
+                'status'            => 1,
+                'qualifcations'     => $qualifcations
+            ]);
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
         }
     }
-    function editQualifcationsUserDashboard(Request $request){
-        $qualifid = $request->qualifid;
-        $name = $request->name;
-        $depart = $request->depart;
-        $university = $request->university;
-        $qualifcations = DB::table('qualifcations')->where('id', $qualifid)->update([
-            'name'      => $name,
-            'depart'   => $depart,
-            'university'   => $university,
-        ]);
-        if($qualifcations){?>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-            <?php
-            $mes = "<div class='alert alert-success'> Updated successful</div>";
-            $this->redirectHome($mes, 'back', 5);
-            return redirect()->route('userDashboard')
-            ->with(['success'=>'user created successful']);
-        }else{
-            return back()->with(['error'=>'can not create user']);
+    function insertQualifcationsUserDashboard(Request $request)
+    {
+        $input = new UserQualifcations();
+        $validte = Validator::make($request->all(), $input->rules());
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
+            $qualifcations = Qualifcation::create($request->input());
+            if ($qualifcations)
+                return response()->json(['status' => 1, 'success' => 'Qualifcation Inserted Successful']);
+            return response()->json(['error' => 'can not Inserted']);
+        }
+    }
+    function editQualifcation(Qualifcation $id)
+    {
+        if ($id) {
+            return response()->json([
+                'status'            => 1,
+                'qualifcation'      => $id
+            ]);
+        } else {
+            return response()->json(['status' => 0, 'error' => 'Not Found']);
+        }
+    }
+    function editQualifcationsUserDashboard(Request $request)
+    {
+        $input = new UserQualifcations();
+        $validte = Validator::make($request->all(), $input->rules());
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
+            $qualifcations = Qualifcation::find($request->qualifcation_id);
+            $qualifcations->update($request->input());
+            if ($qualifcations)
+                return response()->json(['status' => 1, 'success' => 'Qualifcation Inserted Successful']);
+            return response()->json(['error' => 'can not Inserted']);
         }
     }
 
-    function deleteQualifcationsUserDashboard(Request $request){
-        $id = $request->qualifid;
-        $qualifcations = DB::table('qualifcations')->where('id', $id)->delete();
-        if($qualifcations){?>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-            <?php
-            $mes = "<div class='alert alert-success'> Deleted successful</div>";
-            $this->redirectHome($mes, 'back', 5);
-            return redirect()->route('userDashboard')
-            ->with(['success'=>'user created successful']);
-        }else{
-            return back()->with(['error'=>'can not create user']);
-        }
+    function deleteQualifcationsUserDashboard(Request $request)
+    {
+        $qualifcation = Qualifcation::find($request->id);
+        if ($qualifcation->delete())
+            return response()->json(['status' => 1, 'success' => 'Qualifcation Deleted Successful']);
+        return response()->json(['error' => 'can not Deleted']);
     }
-    function addCoursesUser(Request $request){
-        $userid = $request->userid;
-        $name = $request->name;
-        $courses = DB::table('courses')->insert([
-            'name'      => $name,
-            'user_id'   => $userid
+
+    public function showCourses()
+    {
+        return response()->json([
+            'status'        => 1,
+            'courses'       => Course::where('user_id', Auth::id())->get(),
         ]);
-        if($courses){?>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-            <?php
-            $mes = "<div class='alert alert-success'> inserted successful</div>";
-            $this->redirectHome($mes, 'back', 5);
-            return redirect()->route('userDashboard')
-            ->with(['success'=>'user created successful']);
-        }else{
-            return back()->with(['error'=>'can not create user']);
+    }
+
+    function addCoursesUser(Request $request)
+    {
+        $validte = Validator::make($request->all(), [
+            'name'      => 'required',
+        ]);
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
+            $courses = Course::create($request->input());
+            if ($courses)
+                return response()->json(['status' => 1, 'success' => 'Course Inserted Successful']);
+            return response()->json(['error' => 'can not Inserted']);
         }
     }
 
-    function editCoursesUser(Request $request){
-        $courseid = $request->courseid;
-        $name = $request->name;
-        $courses = DB::table('courses')->where('id', $courseid)->update(['name'      => $name ]);
-        if($courses){?>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-            <?php
-            $mes = "<div class='alert alert-success'> Updated successful</div>";
-            $this->redirectHome($mes, 'back', 5);
-            return redirect()->route('userDashboard')
-            ->with(['success'=>'user created successful']);
-        }else{
-            return back()->with(['error'=>'can not create user']);
-        }
-    }
-    function deleteCoursesUser(Request $request){
-        $id = $request->courseid;
-        $courses = DB::table('courses')->where('id', $id)->delete();
-        if($courses){?>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-            <?php
-            $mes = "<div class='alert alert-success'> Deleted successful</div>";
-            $this->redirectHome($mes, 'back', 5);
-            return redirect('userDashboard');
-        }else{
-            return back()->with(['error'=>'can not create user']);
-        }
+    public function editCourses(Course $id)
+    {
+        return response()->json([
+            'status'        => 1,
+            'course'        => $id,
+        ]);
     }
 
+    function editCoursesUser(Request $request)
+    {
+        $validte = Validator::make($request->all(), [
+            'name'      => 'required',
+        ]);
+        if (!$validte->passes()) {
+            return response()->json(['status' => 0, 'error' => $validte->errors()->toArray()]);
+        } else {
+            $course = Course::find($request->course_id);
+            if ($course->update($request->input()))
+                return response()->json(['status' => 1, 'success' => 'Course updated Successful']);
+            return response()->json(['error' => 'can not updated']);
+        }
+    }
+    function deleteCoursesUser(Request $request)
+    {
+        $course = Course::find($request->id);
+        if ($course->delete())
+            return response()->json(['status' => 1, 'success' => 'Course Deleted Successful']);
+        return response()->json(['error' => 'can not Deleted']);
+    }
 }

@@ -14,7 +14,4 @@ class Course extends Model
     protected $fillable = [
         'name', 'user_id'
     ];
-    public function getImagePathAttribute(){
-        return Storage::disk('public')->url($this->image);
-    }
 }

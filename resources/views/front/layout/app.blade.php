@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home">Home</a>
+                        <a class="nav-link {{ Request::segment(1) === 'home' ? 'text-warning' : 'text-light' }}" aria-current="page" href="home">Home</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('jobs')}}" class="nav-link {{ Request::segment(1) === 'jobs' ? 'text-warning' : 'text-light' }}">Jobs</a>
@@ -56,12 +56,12 @@
                                 @elseif(Auth::user()->hasRole('client'))
                                     <li><a class="dropdown-item" href="userDashboard">User Dashboard</a></li>
                                 @endif
-                                <li><a class="dropdown-item" href="logout">Logout</a></li>
+                                <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                             </ul>
                         </li>
                     @else
                         <li>
-                            <a href="login" class="nav-link">
+                            <a href="{{route('login')}}" class="nav-link">
                                 Login/Signup
                             </a>
                         </li>
@@ -87,17 +87,17 @@
     @yield('login')
     <!-- Start Footer Section -->
 <section id="footer" class="bg-dark">
-        <div class="footer">
-            <h1>Yemen UP</h1>
-            <div class="icons">
-                <img src="{{ URL::asset('images/icon.png')}}" alt="" srcset="">
-                <img src="{{ URL::asset('images/icon1.png')}}" alt="" srcset="">
-                <img src="{{ URL::asset('images/icon2.png')}}" alt="" srcset="">
-                <img src="{{ URL::asset('images/icon3.png')}}" alt="" srcset="">
-            </div>
-            <p>Copyright &copy YemenUP</p>
+    <div class="footer">
+        <h1>Yemen UP</h1>
+        <div class="icons">
+            <img src="{{ URL::asset('images/icon.png')}}" alt="" srcset="">
+            <img src="{{ URL::asset('images/icon1.png')}}" alt="" srcset="">
+            <img src="{{ URL::asset('images/icon2.png')}}" alt="" srcset="">
+            <img src="{{ URL::asset('images/icon3.png')}}" alt="" srcset="">
         </div>
-    </section>
+        <p>Copyright &copy YemenUP</p>
+    </div>
+</section>
     <!-- End Footer Section -->
 
     <script src="{{ URL::asset('js/jquery-3.5.1.min.js')}}"></script>

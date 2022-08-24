@@ -18,4 +18,13 @@ class Job extends Model
     {
         return $this->hasMany(City::class, 'id');
     }
+    public function cityJob()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function apply()
+    {
+        return $this->hasMany(Apply::class, 'job_id');
+    }
 }

@@ -70,18 +70,20 @@ $(function () {
     });
 
     $(".navbar-toggle").click(function () {
-        $('.navbar-collapse').slideToggle("fast");
+        $('.navbar-collapses').slideToggle("fast");
     });
     $(document).on("click", function (event) {
         var $trigger = $(".navbar-toggle");
         if ($trigger !== event.target && !$trigger.has(event.target).length) {
-            $(".navbar-collapse").slideUp("fast");
+            $(".navbar-collapses").slideUp("fast");
         }
     });
     $('.navbar-header2').click(function () {
+        $('.holder').removeClass('mobile');
         $("#sidebar").show();
         $('.navbar-header2').addClass('d-none');
         $('.holder').addClass('aside');
+
 
     });
 

@@ -17,15 +17,12 @@ class CreateJobsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('address_name');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('link');
             $table->boolean('is_active')->default(1);
             $table->integer('company_id');
             $table->integer('city_id');
-
-            $table->string('image');
             $table->timestamps();
         });
     }
